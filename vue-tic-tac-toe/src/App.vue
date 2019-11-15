@@ -11,9 +11,8 @@
         <h1>Tic Tac Toe</h1>
         <h2>Match #{{ matches + 1 }}</h2>
       </div>
-      <button class="restart" @click="restart">Restart</button>
-
       <grid></grid>
+      <button class="restart" @click="restart">Restart</button>
     </div>
   </div>
 </template>

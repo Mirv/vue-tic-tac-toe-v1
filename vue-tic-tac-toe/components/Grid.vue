@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h2>Move #{{ moves }}</h2>
         <div class="gameStatus" :class="gameStatusColor">
             {{ gameStatusMessage }}
         </div>
@@ -61,6 +62,7 @@
             }
         },
         computed: {
+            moves: 0,
             // helper property to get the non-active player
             nonActivePlayer () {
                 if (this.activePlayer === 'O') {
@@ -75,7 +77,6 @@
             gameStatus () {
                 if (this.gameStatus === 'win') {
                     this.gameStatusColor = 'statusWin'
-                    this.gameStatusMessage = `${this.activePlayer} Wins !`
                     return
                 } else if (this.gameStatus === 'draw') {
                     this.gameStatusColor = 'statusDraw'
@@ -142,28 +143,27 @@
                         return false;
                 }
                 return true;
-            },
-
-            created () {
-                // listens for a strike made by the user on cell
-                // it is called by the Cell component
-                Event.$on('strike', (cellNumber) => {
-                        // sets either X or O in the clicked cell of the cells array
-                        this.cells[cellNumber] = this.activePlayer
-                        // increments the number of moves
-                        this.moves++
-                        // stores the game status by calling the changeGameStatus method
-                        this.gameStatus = this.changeGameStatus()
-
-                        this.changePlayer()
-                })
-                    // listens for a restart button press
-                    // the data of the component is reinitialized
-                    // it is called by the App component
-                Event.$on('gridReset', () => {
-                    Object.assign(this.$data, this.$options.data())
-                })
             }
+        },
+        created () {
+            // listens for a strike made by the user on cell
+            // it is called by the Cell component
+            Event.$on('strike', (cellNumber) => {
+                    // sets either X or O in the clicked cell of the cells array
+                    this.cells[cellNumber] = this.activePlayer
+                    // increments the number of moves
+                    this.moves++
+                    // stores the game status by calling the changeGameStatus method
+                    this.gameStatus = this.changeGameStatus()
+
+                    this.changePlayer()
+            })
+                // listens for a restart button press
+                // the data of the component is reinitialized
+                // it is called by the App component
+            Event.$on('gridReset', () => {
+                Object.assign(this.$data, this.$options.data())
+            })
         }
     }
 </script>
